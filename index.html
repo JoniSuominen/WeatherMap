@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Weather Map
+		</title>
+		<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+		<meta charset ="utf-8">
+		<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+		  type="text/javascript" charset="utf-8"></script>
+		<script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+		  type="text/javascript" charset="utf-8"></script>
+		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+		<script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+		<script type ='text/javascript' src="C:/Users/Joni/Desktop/WeatherGoogleMaps/scripts/script.js"></script>
+    <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    #locationsearch {
+      position: absolute;
+      display: flex;
+      top: 30px;
+      width: 30%;
+
+    }
+    </style>
+	</head>
+
+	<body>
+	<div id='mapContainer' style="width: 100%; height: 100%"></div>
+  <form id="form">
+    <div class="form-group">
+      <label class="sr-only" for="q">City, State, Postal Code</label>
+      <input class="form-control" id="q" placeholder="City, State, Postal Code" autocomplete="off" type="text"/>
+    </div>
+  </form>
+
+    <input type="text" id="locationsearch" placeholder="Enter location..">
+	</body>
+</html>
