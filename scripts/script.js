@@ -1,5 +1,5 @@
 var AUTOCOMPLETION_URL = 'https://autocomplete.geocoder.api.here.com/6.2/suggest.json',
-  ajaxRequest = new XMLHttpRequst(),
+  ajaxRequest = new XMLHttpRequest(),
   query = '';
 
 
@@ -31,6 +31,7 @@ var platform = new H.service.Platform({
 });
 
 $(document).ready(function() {
+  console.log("XD")
 	// Obtain the default map types from the platform object:
 	var defaultLayers = platform.createDefaultLayers();
 
