@@ -30,6 +30,10 @@ var platform = new H.service.Platform({
   'app_code': APP_CODE
 });
 
+function onAutoCompleteSuccess(){
+	
+}
+
 $(document).ready(function() {
   console.log("XD")
 	// Obtain the default map types from the platform object:
@@ -49,3 +53,9 @@ $(document).ready(function() {
 	var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 });
+
+$("#form-control").keyup(function() {
+	autocompleteListener($("#form-control"), keyup)
+});
+
+ajaxRequest.addEventListener("load", onAutoCompleteSuccess);
