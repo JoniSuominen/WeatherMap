@@ -4,6 +4,13 @@ from query import queryWeather
 app = Flask(__name__)
 
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
+
 @app.route("/")
 def index():
     print("XD")
@@ -13,13 +20,11 @@ def index():
 def weather():
     print("LOL")
     if request.method == 'GET':
+        print(request.args.get("lat"))
         lat = request.args.get("lat")
         lon = request.args.get("lon")
         data = queryWeather(lat, lon)
         return data
-
-@app.route("/search")
-def search():
 
 
 

@@ -4,6 +4,9 @@ var AUTOCOMPLETION_URL = 'https://autocomplete.geocoder.api.here.com/6.2/suggest
 
 var APP_ID = 'gavPqgol9yAUUGHAWL0d';
 var APP_CODE = 'KwDM1mSbmqqKQ5b30YldpQ';
+var map;
+var group;
+var ui;
 
 function configure() {
   $("#q").typeahead({
@@ -22,6 +25,85 @@ function configure() {
       )
     }
   });
+
+  $("#q").on("typeahead:selected", function(eventObject, suggestion, name) {
+    console.log(suggestion.label)
+      var geocodingParams = {
+        searchText: suggestion.label
+      }
+      geocoder.geocode(geocodingParams, onResult, function(e) {
+        console.log("hei");
+        alert(e);
+      });
+  });
+
+  var onResult = function(result) {
+    var locations = result.Response.View[0].Result,
+    position, marker;
+    var loc1 = locations[0];
+    console.log("HEI")
+
+    map.setCenter({
+      lat: (loc1.Location.DisplayPosition.Latitude),
+      lng: (loc1.Location.DisplayPosition.Longitude)
+    });
+
+    let parameters = {
+      lat: loc1.Location.DisplayPosition.Latitude,
+      lon: loc1.Location.DisplayPosition.Longitude
+    };
+
+    console.log(parameters.lat);
+    console.log(parameters.lon);
+
+    getWeather(parameters, function(data) {
+      console.log(data);
+      addInfoBubble(loc1, data);
+    })
+
+
+  }
+
+}
+
+
+function getWeather(parameters, callback) {
+  console.log(parameters.lat);
+  $.getJSON("http://127.0.0.1:5000/weather", parameters, function(weather, textStatus, jqXHR) {
+      callback(weather);
+  })
+
+}
+
+function addMarkerToGroup(group, coordinate, html) {
+  var marker = new H.map.Marker(coordinate);
+  // add custom data to the marker
+  marker.setData(html);
+  group.addObject(marker);
+}
+
+function addInfoBubble(loc1, weather) {
+  var group = new H.map.Group();
+
+  map.addObject(group);
+
+  group.addEventListener('tap', function(evt) {
+    var bubble = new H.ui.InfoBubble(evt.target.getPosition(), {
+      content: evt.target.getData()
+    });
+
+    ui.addBubble(bubble);
+  }, false);
+
+  var context = loc1.Location.Address.Label;
+  var temp =  weather.list[0].main.temp - 273.15; 
+  var html = "<div>" + context + ", " + temp  +  "C" + "</div>";
+  console.log(loc1.Location.DisplayPosition.Latitude);
+
+  addMarkerToGroup(group, {lat: loc1.Location.DisplayPosition.Latitude,
+  lng :loc1.Location.DisplayPosition.Longitude},
+  html
+  );
 }
 
 function autoCompleteListener(query, syncResults, asyncResults) {
@@ -58,6 +140,7 @@ var platform = new H.service.Platform({
   'app_code': APP_CODE
 });
 
+var geocoder = platform.getGeocodingService();
 function onAutoCompleteSuccess(){
   clearOldSuggestions();
   addSuggestionsToPanel(ajaxRequest.response);
@@ -77,17 +160,17 @@ $(document).ready(function() {
 	var defaultLayers = platform.createDefaultLayers();
 
 	// Instantiate (and display) a map object:
-	var map = new H.Map(
+  map = new H.Map(
 	  document.getElementById('map'),
 	  defaultLayers.normal.map,
 	  {
 	    zoom: 10,
 	    center: { lat: 52.5, lng: 13.4 }
 	  });
-    var group = new H.map.Group();
+    group = new H.map.Group();
 
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-    var ui = H.ui.UI.createDefault(map, defaultLayers);
+    ui = H.ui.UI.createDefault(map, defaultLayers);
     map.addObject(group);
 });
 
