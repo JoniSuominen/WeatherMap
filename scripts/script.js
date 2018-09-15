@@ -16,7 +16,7 @@ function configure() {
   {
     display: function(suggestion) {return null;},
     limit: 10,
-    source: autoCompleteListener,
+    source: autoCompleteSuggestions,
     templates: {
       suggestion: Handlebars.compile(
         "<div>" +
@@ -27,12 +27,10 @@ function configure() {
   });
 
   $("#q").on("typeahead:selected", function(eventObject, suggestion, name) {
-    console.log(suggestion.label)
       var geocodingParams = {
         searchText: suggestion.label
       }
       geocoder.geocode(geocodingParams, onResult, function(e) {
-        console.log("hei");
         alert(e);
       });
   });
@@ -41,29 +39,22 @@ function configure() {
     var locations = result.Response.View[0].Result,
     position, marker;
     var loc1 = locations[0];
-    console.log("HEI")
-
-    map.setCenter({
-      lat: (loc1.Location.DisplayPosition.Latitude),
-      lng: (loc1.Location.DisplayPosition.Longitude)
-    });
 
     let parameters = {
       lat: loc1.Location.DisplayPosition.Latitude,
       lon: loc1.Location.DisplayPosition.Longitude
     };
 
-    console.log(parameters.lat);
-    console.log(parameters.lon);
+    map.setCenter({
+      lat: parameters.lat,
+      lng: parameters.lon
+    });
 
     getWeather(parameters, function(data) {
-      console.log(data);
       addInfoBubble(loc1, data);
     })
 
-
   }
-
 }
 
 
@@ -95,10 +86,16 @@ function addInfoBubble(loc1, weather) {
     ui.addBubble(bubble);
   }, false);
 
+
+
   var context = loc1.Location.Address.Label;
-  var temp =  weather.list[0].main.temp - 273.15; 
-  var html = "<div>" + context + ", " + temp  +  "C" + "</div>";
-  console.log(loc1.Location.DisplayPosition.Latitude);
+  var temp =  weather.list[0].main.temp;
+  var code = weather.list[0].weather[0].id;
+  console.log(code);
+  var icon = '<i class ="wi wi-owm-' + code + '"></i>';
+  console.log(icon);
+  var html = "<div>" +  icon + ", " +  context + ", " + temp  +  "C" + "</div>";
+  console.log(html);
 
   addMarkerToGroup(group, {lat: loc1.Location.DisplayPosition.Latitude,
   lng :loc1.Location.DisplayPosition.Longitude},
@@ -106,8 +103,7 @@ function addInfoBubble(loc1, weather) {
   );
 }
 
-function autoCompleteListener(query, syncResults, asyncResults) {
-  console.log(query)
+function autoCompleteSuggestions(query, syncResults, asyncResults) {
       let parameters = {
         query: encodeURIComponent(query),
         beginHighLight: encodeURIComponent('</mark'),
@@ -116,22 +112,8 @@ function autoCompleteListener(query, syncResults, asyncResults) {
         app_code: APP_CODE
       };
       $.getJSON(AUTOCOMPLETION_URL, parameters, function(data, textStatus, jqXHR) {
-        console.log((data.suggestions)  )
         asyncResults(data.suggestions);
       });
-/*
-      var params = '?' +
-      'query=' + encodeURIComponent(textBox.value) +
-      '&beginHighLight=' + encodeURIComponent('<mark>') +
-      '&endHighLight=' + encodeURIComponent('</mark') +
-      '&maxresults=5' +
-      '&app_id=' + APP_ID +
-      '%app_code=' + APP_CODE;
-      ajaxRequest.open('GET', AUTOCOMPLETION_URL + params);
-      ajaxRequest.send();
-    */
-
-
 }
 
 
@@ -141,11 +123,6 @@ var platform = new H.service.Platform({
 });
 
 var geocoder = platform.getGeocodingService();
-function onAutoCompleteSuccess(){
-  clearOldSuggestions();
-  addSuggestionsToPanel(ajaxRequest.response);
-  addSuggestionsToMap(ajaxRequest.response);
-}
 
 function addSuggestionsToPanel(response) {
 
@@ -177,8 +154,3 @@ $(document).ready(function() {
 $(function() {
   configure();
 });
-
-
-ajaxRequest.addEventListener("load", onAutoCompleteSuccess);
-ajaxRequest.addEventListener("error", onAutoCompleteFailed);
-ajaxRequest.responseType = "json";
