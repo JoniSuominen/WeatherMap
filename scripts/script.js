@@ -134,7 +134,8 @@ function onAutoCompleteFailed() {
 
 $(document).ready(function() {
 	// Obtain the default map types from the platform object:
-	var defaultLayers = platform.createDefaultLayers();
+  var defaultLayers = platform.createDefaultLayers();
+
 
 	// Instantiate (and display) a map object:
   map = new H.Map(
