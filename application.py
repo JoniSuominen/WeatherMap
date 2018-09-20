@@ -14,12 +14,10 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    print("XD")
     return render_template("index.html")
 
 @app.route("/weather")
 def weather():
-    print("LOL")
     if request.method == 'GET':
         print(request.args.get("lat"))
         lat = request.args.get("lat")
