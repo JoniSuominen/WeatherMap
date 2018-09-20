@@ -135,8 +135,10 @@ function autoCompleteSuggestions(query, syncResults, asyncResults) {
 
 
 var platform = new H.service.Platform({
+  useCIT: true,
 'app_id': APP_ID,
-'app_code': APP_CODE
+'app_code': APP_CODE,
+useHTTPS : true
 });
 
 var geocoder = platform.getGeocodingService();
