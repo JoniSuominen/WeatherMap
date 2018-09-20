@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS, cross_origin
 from query import queryWeather
 import os
 
 app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.after_request
