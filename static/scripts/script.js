@@ -80,7 +80,7 @@ function clearBubbles() {
 
 
 function getWeather(parameters, callback) {
-$.getJSON("http://0.0.0.0:5000/weather", parameters, function(weather, textStatus, jqXHR) {
+$.getJSON("https://0.0.0.0:5000/weather", parameters, function(weather, textStatus, jqXHR) {
     callback(weather);
 })
 
