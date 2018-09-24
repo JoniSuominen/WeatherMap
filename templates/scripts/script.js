@@ -9,6 +9,8 @@ var group;
 var ui;
 var bubble;
 
+console.log("lol");
+
 // configures the typeahead-plugin for autocomplete
 
 function configure() {
