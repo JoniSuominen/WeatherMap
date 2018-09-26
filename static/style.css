@@ -59,3 +59,36 @@ padding: 6px 12px;
     background-color: black;
     color: red;
 }
+
+.navbar-brand {
+	font-size: 3vw;
+}
+
+.icon {
+    display: inline-block;
+    padding-left: 10px;
+    font-size: 1.1em;
+    color: white;
+}
+.center {
+    height: 100%;
+    margin: auto;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    background-color: black;
+}
+.vertical-center {
+
+display: flex;
+align-items: center;
+}
+
+@media (min-width: 1600px) {
+.icon {
+    font-size: 1.4em;
+}
+}
