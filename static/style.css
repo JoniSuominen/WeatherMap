@@ -1,5 +1,5 @@
 .wi {
-    font-size: 3vw;
+    font-size: 45px;
 }
 html, body {
   width: 100%;
@@ -42,14 +42,16 @@ padding: 6px 12px;
 }
 
 .column {
-    flex: 50%;
+    width: 50%;
+}
+p{
+    font-size: 0.5em;
 }
 
 .H_ib_body{
     color:black;
     background:white;
     border: 1px solid black;
-    width: 15vw;
   }
 
 .H_ib_content {
@@ -91,4 +93,8 @@ align-items: center;
 .icon {
     font-size: 1.4em;
 }
+}
+
+.infotext {
+    font-size: 20px;
 }
