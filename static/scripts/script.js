@@ -116,7 +116,7 @@ let context = loc1.Location.Address.Label;
 let temp =  Math.round(weather.list[0].main.temp);
 let code = weather.list[0].weather[0].id;
 let icon = '<i class ="wi wi-owm-' + code + '"></i>';
-let html = "<div class='row'> <div class='column'>" +  icon + "</div>" + "<div class=' column'><p class='infotext'> " + context + ", " + temp  +  "C" + " </p> </div>" + "</div>";
+let html = "<div class='row'> <div class='column'>" +  icon + "</div>" + "<div class=' column'><p class='infotext'> " + context + ", " + temp  +  "  °C" + " </p> </div>" + "</div>";
 
 addMarkerToGroup(group, {lat: loc1.Location.DisplayPosition.Latitude,
 lng :loc1.Location.DisplayPosition.Longitude},
